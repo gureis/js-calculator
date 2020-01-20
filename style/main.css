@@ -9,10 +9,11 @@
     margin: 0 auto;
 }
 
-.calculadora {    
+.calculadora {
     background-color: #f4f4f4;
     padding: 25px;
     margin: 10px;
+    border: 1px solid rgb(182, 182, 182);
     border-radius: 5px;
 }
 

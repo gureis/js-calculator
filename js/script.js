@@ -2,22 +2,22 @@ let display = document.querySelector(".display");
 let leftOperand = null;
 let rightOperand = null;
 let result = null;
-let operation = null;
+let operator = null;
 let hasDot = false;
-let isNewNumber = false;
+let isNewNumber = true;
 let isSoftClear = false;
 
 function writeNumber(value) {
     let newValue = "";
-    if(isNewNumber) {
+    if (isNewNumber) {
         display.innerHTML = value;
         newValue = value;
-        isNewNumber = false;
+        isNewNumber = !isNewNumber;
     } else {
         newValue = display.innerHTML + value;
         display.innerHTML = newValue.replace(/^0+/, '');
     }
-    if (operation === null) {
+    if (operator === null) {
         leftOperand = newValue;
     } else {
         rightOperand = newValue;
@@ -26,12 +26,12 @@ function writeNumber(value) {
 }
 
 function clearDisplay() {
-    if(isSoftClear) {
+    if (isSoftClear) {
         leftOperand = null;
         rightOperand = null;
         result = null;
         hasDot = false;
-        operation = null;
+        operator = null;
     } else {
         rightOperand = 0;
     }
@@ -39,20 +39,24 @@ function clearDisplay() {
     display.innerHTML = "0";
 }
 
-function setOperation(localOperation) {
-    display.innerHTML = '0';
-    hasDot = false;
-    operation = localOperation;
-    if(rightOperand) {
-        executeOperation();
-        isNewNumber = true;
+function setOperator(localOperator) {
+    if (isNewNumber && localOperator == 'SUB') {
+        writeNumber('-');
+    } else {
+        display.innerHTML = '0';
+        hasDot = false;
+        operator = localOperator;
+        isNewNumber = !isNewNumber;
+        if (rightOperand) {
+            executeOperation();
+        }
     }
 }
 
 function executeOperation() {
     leftOperand = parseFloat(leftOperand);
     rightOperand = parseFloat(rightOperand);
-    switch (operation) {
+    switch (operator) {
         case 'ADD':
             add();
             break;
@@ -71,6 +75,7 @@ function executeOperation() {
     }
     leftOperand = result;
     display.innerHTML = Number(result.toFixed(8));
+    isNewNumber = true;
 }
 
 function add() {
@@ -79,7 +84,6 @@ function add() {
 
 function sub() {
     result = leftOperand - rightOperand;
-
 }
 
 function div() {
@@ -94,6 +98,7 @@ function writeDot() {
     if (!hasDot) {
         display.innerHTML = display.innerHTML.replace(/^0+/, '');
         display.innerHTML += ".";
+        isNewNumber = !isNewNumber;
         hasDot = true;
     }
 }
