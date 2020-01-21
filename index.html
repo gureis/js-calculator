@@ -36,15 +36,15 @@
             </div>
             <div class="operation-keyboard">
                 <div class="keyboard-line">
-                    <button onclick="setOperator('MUL')">&#215</button>
-                    <button onclick="setOperator('DIV')">&#247</button>
+                    <button onclick="setOperator('*')">&#215</button>
+                    <button onclick="setOperator('/')">&#247</button>
                 </div>
                 <div class="keyboard-line">
-                    <button onclick="setOperator('ADD')">+</button>
-                    <button onclick="setOperator('SUB')">-</button>
+                    <button onclick="setOperator('+')">+</button>
+                    <button onclick="setOperator('-')">-</button>
                 </div>
                 <div class="keyboard-line">
-                    <button onclick="clearDisplay()">C</button>
+                    <button id="clear-display-button" onclick="clearDisplay()">C</button>
                     <button onclick="executeOperation()">=</button>
                 </div>
             </div>

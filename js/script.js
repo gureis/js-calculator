@@ -1,4 +1,4 @@
-let display = document.querySelector(".display");
+const display = document.querySelector(".display");
 let leftOperand = null;
 let rightOperand = null;
 let savedRightOperand = null;
@@ -9,6 +9,28 @@ let operator = null;
 let hasDot = false;
 let isNewNumber = true;
 let isHardClear = false;
+
+function add() {
+    result = leftOperand + rightOperand;
+}
+function subtract() {
+    result = leftOperand - rightOperand;
+}
+function divide() {
+    result = leftOperand / rightOperand;
+}
+function multiply() {
+    result = leftOperand * rightOperand;
+}
+
+
+function defineClearText() {
+    if(isHardClear) {
+        document.querySelector('#clear-display-button').textContent = 'CE';
+    } else {
+        document.querySelector('#clear-display-button').textContent = 'C';
+    }
+}
 
 function writeNumber(value) {
     let newValue = "";
@@ -26,6 +48,7 @@ function writeNumber(value) {
         rightOperand = newValue;
     }
     isHardClear = false;
+    defineClearText();
 }
 
 function clearDisplay() {
@@ -41,20 +64,23 @@ function clearDisplay() {
     }
     isHardClear = !isHardClear;
     display.innerHTML = "0";
+    defineClearText();
 }
 
-// limitar numero de char
-// Tirar o switch, substituir por operation['name'] = function
 // Teclas do teclado precisam funcionar
+// 5 + 3 = 8 /, repetir, pq tem erro
+// limitar numero de char
 
-//trocar resultado no segundo click
+//trocar resultado no segundo click depois de mudar o numero (isso é realmente um erro?)
 
+//testar 3 - -3 -> DONE
+// Tirar o switch, substituir por operation['name'] = function --> DONE -> mas no fim, nem usou
 // arrumar erro do C --> ACHO QUE DONE
 // segundo click do = --> DONE
 // Operador mudado não deveria calcular nada, exemplo 6 + 6 *. --> DONE
 // -6 -6 - 8 tem erro, resolve essa parada --> DONE
 function setOperator(localOperator) {
-    if(isNewNumber && localOperator == 'SUB' && operator !== 'SUB') {
+    if(isNewNumber && localOperator == 'subtract') {
         writeNumber('-');
     }
     else {
@@ -72,17 +98,17 @@ function executeOperation() {
     leftOperand = parseFloat(leftOperand);
     rightOperand = (rightOperand !== null) ? parseFloat(rightOperand) : savedRightOperand;
     switch (operator) {
-        case 'ADD':
+        case '+':
             add();
             break;
-        case 'SUB':
-            sub();
+        case '-':
+            subtract();
             break;
-        case 'DIV':
-            div();
+        case '/':
+            divide();
             break;
-        case 'MUL':
-            mul();
+        case '*':
+            multiply();
             break;
         default:
             console.log('Operação não existente');
@@ -93,22 +119,7 @@ function executeOperation() {
     rightOperand = null;
     display.innerHTML = Number(result.toFixed(8));
     isNewNumber = true;
-}
-
-function add() {
-    result = leftOperand + rightOperand;
-}
-
-function sub() {
-    result = leftOperand - rightOperand;
-}
-
-function div() {
-    result = leftOperand / rightOperand;
-}
-
-function mul() {
-    result = leftOperand * rightOperand;
+    defineClearText();
 }
 
 function writeDot() {
@@ -120,6 +131,29 @@ function writeDot() {
     }
 }
 
-function showResult() {
+document.addEventListener('keyup', function (event) {
 
+    const validKey = event.key;
+    console.log(event);
+
+    if(!isNaN(parseInt(validKey))) {
+        writeNumber(parseInt(validKey));
+    } else if(isValidOperatornKey(validKey)) {
+        setOperator(validKey);
+    } else if(isValidEqualKey(validKey)) {
+        executeOperation();
+    }
+});
+
+function isValidOperatornKey(operation) {
+    if(operation === '+' || operation === '-' || operation === '/' || operation === '+') {
+        return true;
+    }
+    return false;
+}
+
+function isValidEqualKey(key) {
+    if(key === ' ') {
+        return true;
+    }
 }
