@@ -9,6 +9,7 @@ let operator = null;
 let hasDot = false;
 let isNewNumber = true;
 let isHardClear = false;
+let isNewOperation = true;
 
 function add() {
     result = leftOperand + rightOperand;
@@ -25,15 +26,33 @@ function multiply() {
 
 
 function defineClearText() {
-    if(isHardClear) {
+    if (isHardClear) {
         document.querySelector('#clear-display-button').textContent = 'CE';
     } else {
         document.querySelector('#clear-display-button').textContent = 'C';
     }
 }
 
+// function writeNumber(value) {
+//     let newValue = "";
+//     if (isNewNumber) {
+//         display.innerHTML = value;
+//         newValue = value;
+//         isNewNumber = !isNewNumber;
+//     } else {
+//         newValue = display.innerHTML + value;
+//         display.innerHTML = newValue.replace(/^0+/, '');
+//     }
+//     if (operator === null) {
+//         leftOperand = newValue;
+//     } else {
+//         rightOperand = newValue;
+//     }
+//     isHardClear = false;
+//     defineClearText();
+// }
+
 function writeNumber(value) {
-    let newValue = "";
     if (isNewNumber) {
         display.innerHTML = value;
         newValue = value;
@@ -42,52 +61,38 @@ function writeNumber(value) {
         newValue = display.innerHTML + value;
         display.innerHTML = newValue.replace(/^0+/, '');
     }
-    if (operator === null) {
-        leftOperand = newValue;
-    } else {
-        rightOperand = newValue;
-    }
-    isHardClear = false;
-    defineClearText();
 }
+
+
 
 function clearDisplay() {
     if (isHardClear) {
         leftOperand = null;
         rightOperand = null;
+        savedRightOperand = null;
         result = null;
-        hasDot = false;
         operator = null;
+        //flags
+        hasDot = false;
+        isNewNumber = true;
+        isHardClear = false;
     } else {
         rightOperand = null;
         isNewNumber = !isNewNumber;
+        isHardClear = true;
     }
-    isHardClear = !isHardClear;
     display.innerHTML = "0";
     defineClearText();
 }
 
-// Teclas do teclado precisam funcionar
-// 5 + 3 = 8 /, repetir, pq tem erro
-// limitar numero de char
-
-//trocar resultado no segundo click depois de mudar o numero (isso é realmente um erro?)
-
-//testar 3 - -3 -> DONE
-// Tirar o switch, substituir por operation['name'] = function --> DONE -> mas no fim, nem usou
-// arrumar erro do C --> ACHO QUE DONE
-// segundo click do = --> DONE
-// Operador mudado não deveria calcular nada, exemplo 6 + 6 *. --> DONE
-// -6 -6 - 8 tem erro, resolve essa parada --> DONE
 function setOperator(localOperator) {
-    if(isNewNumber && localOperator == 'subtract') {
+    if (isNewNumber && localOperator == '-') {
         writeNumber('-');
     }
     else {
-        if (rightOperand !== null ) {
+        if (rightOperand !== null) {
             executeOperation();
         }
-        // display.innerHTML = '0';
         hasDot = false;
         operator = localOperator;
         isNewNumber = true;
@@ -119,41 +124,64 @@ function executeOperation() {
     rightOperand = null;
     display.innerHTML = Number(result.toFixed(8));
     isNewNumber = true;
-    defineClearText();
 }
 
 function writeDot() {
     if (!hasDot) {
         display.innerHTML = display.innerHTML.replace(/^0+/, '');
         display.innerHTML += ".";
-        isNewNumber = !isNewNumber;
         hasDot = true;
     }
 }
 
 document.addEventListener('keyup', function (event) {
-
     const validKey = event.key;
     console.log(event);
 
-    if(!isNaN(parseInt(validKey))) {
+    if (isValidNumber(validKey)) {
         writeNumber(parseInt(validKey));
-    } else if(isValidOperatornKey(validKey)) {
+    } else if (isValidOperatorKey(validKey)) {
         setOperator(validKey);
-    } else if(isValidEqualKey(validKey)) {
+    } else if (isValidEqualKey(validKey)) {
         executeOperation();
+    } else if (isValidDotKey(validKey)) {
+        writeDot();
+    } else if (isValidClearKey(validKey)) {
+        clearDisplay();
     }
 });
 
-function isValidOperatornKey(operation) {
-    if(operation === '+' || operation === '-' || operation === '/' || operation === '+') {
+function isValidNumber(number) {
+    if (!isNaN(parseInt(number))) {
+        return true;
+    }
+    return false;
+}
+
+function isValidOperatorKey(operation) {
+    if (operation === '+' || operation === '-' || operation === '/' || operation === '*') {
         return true;
     }
     return false;
 }
 
 function isValidEqualKey(key) {
-    if(key === ' ') {
+    if (key === ' ' || key === 'Enter' || key === '=') {
         return true;
     }
+    return false;
+}
+
+function isValidDotKey(dot) {
+    if (dot === '.') {
+        return true;
+    }
+    return false;
+}
+
+function isValidClearKey(backspace) {
+    if (backspace === 'Backspace') {
+        return true;
+    }
+    return false;
 }
