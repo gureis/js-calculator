@@ -8,7 +8,7 @@ let operator = null;
 //flags
 let hasDot = false;
 let isNewNumber = true;
-let isSoftClear = false;
+let isHardClear = false;
 
 function writeNumber(value) {
     let newValue = "";
@@ -25,11 +25,11 @@ function writeNumber(value) {
     } else {
         rightOperand = newValue;
     }
-    isSoftClear = false;
+    isHardClear = false;
 }
 
 function clearDisplay() {
-    if (!isSoftClear) {
+    if (isHardClear) {
         leftOperand = null;
         rightOperand = null;
         result = null;
@@ -39,7 +39,7 @@ function clearDisplay() {
         rightOperand = null;
         isNewNumber = !isNewNumber;
     }
-    isSoftClear = !isSoftClear;
+    isHardClear = !isHardClear;
     display.innerHTML = "0";
 }
 
