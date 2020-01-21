@@ -1,8 +1,11 @@
 let display = document.querySelector(".display");
 let leftOperand = null;
 let rightOperand = null;
+let savedRightOperand = null;
 let result = null;
 let operator = null;
+
+//flags
 let hasDot = false;
 let isNewNumber = true;
 let isSoftClear = false;
@@ -26,36 +29,48 @@ function writeNumber(value) {
 }
 
 function clearDisplay() {
-    if (isSoftClear) {
+    if (!isSoftClear) {
         leftOperand = null;
         rightOperand = null;
         result = null;
         hasDot = false;
         operator = null;
     } else {
-        rightOperand = 0;
+        rightOperand = null;
+        isNewNumber = !isNewNumber;
     }
     isSoftClear = !isSoftClear;
     display.innerHTML = "0";
 }
 
+// limitar numero de char
+// Tirar o switch, substituir por operation['name'] = function
+// Teclas do teclado precisam funcionar
+
+//trocar resultado no segundo click
+
+// arrumar erro do C --> ACHO QUE DONE
+// segundo click do = --> DONE
+// Operador mudado não deveria calcular nada, exemplo 6 + 6 *. --> DONE
+// -6 -6 - 8 tem erro, resolve essa parada --> DONE
 function setOperator(localOperator) {
-    if (isNewNumber && localOperator == 'SUB') {
+    if(isNewNumber && localOperator == 'SUB' && operator !== 'SUB') {
         writeNumber('-');
-    } else {
-        display.innerHTML = '0';
-        hasDot = false;
-        operator = localOperator;
-        isNewNumber = !isNewNumber;
-        if (rightOperand) {
+    }
+    else {
+        if (rightOperand !== null ) {
             executeOperation();
         }
+        // display.innerHTML = '0';
+        hasDot = false;
+        operator = localOperator;
+        isNewNumber = true;
     }
 }
 
 function executeOperation() {
     leftOperand = parseFloat(leftOperand);
-    rightOperand = parseFloat(rightOperand);
+    rightOperand = (rightOperand !== null) ? parseFloat(rightOperand) : savedRightOperand;
     switch (operator) {
         case 'ADD':
             add();
@@ -74,6 +89,8 @@ function executeOperation() {
             break;
     }
     leftOperand = result;
+    savedRightOperand = rightOperand;
+    rightOperand = null;
     display.innerHTML = Number(result.toFixed(8));
     isNewNumber = true;
 }
