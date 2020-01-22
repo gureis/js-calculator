@@ -55,6 +55,8 @@ function clearDisplay() {
         result = null;
 
         hasDot = false;
+
+        removeSelectedOperator();
     }
     resetDisplayContent();
     isSoftClear = !isSoftClear;

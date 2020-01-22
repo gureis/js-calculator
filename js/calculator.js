@@ -56,7 +56,7 @@ function setOperator(localOperator) {
 }
 
 function equalOperation() {
-    if (leftOperand !== null) {
+    if (leftOperand !== null && leftOperand !== '-') {
         if (rightOperand) {
             executeOperation();
             leftOperand = result;
