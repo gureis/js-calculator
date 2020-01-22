@@ -49,6 +49,7 @@ function setOperator(localOperator) {
             rightOperand = null;
         }
         operator = localOperator;
+        displaySelectedOperator(operator);
         isNewNumber = true;
         hasDot = false;
     }
@@ -64,6 +65,7 @@ function equalOperation() {
             executeOperation();
             leftOperand = result;
         }
+        removeSelectedOperator();
         displayResult();
         isNewNumber = true;
         hasDot = false;

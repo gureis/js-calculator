@@ -69,6 +69,18 @@ function displayNegativeNumber(localOperator) {
     return false;
 }
 
+function displaySelectedOperator(operatorId) {
+    removeSelectedOperator();
+    document.getElementById(operatorId).classList.add('selected');
+}
+
+function removeSelectedOperator() {
+    const operators = document.querySelectorAll('.operator');
+    operators.forEach(operator => {
+        operator.classList.remove('selected');
+    });
+}
+
 //KEYBOARD FUNCTIONS
 
 document.addEventListener('keyup', function (event) {
