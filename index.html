@@ -15,23 +15,23 @@
             <p class="display">0</p>
             <div class="number-keyboard">
                 <div class="keyboard-line">
-                    <button onclick="writeNumber(7)">7</button>
-                    <button onclick="writeNumber(8)">8</button>
-                    <button onclick="writeNumber(9)">9</button>
+                    <button onclick="writeOnDisplay(7)">7</button>
+                    <button onclick="writeOnDisplay(8)">8</button>
+                    <button onclick="writeOnDisplay(9)">9</button>
                 </div>
                 <div class="keyboard-line">
-                    <button onclick="writeNumber(4)">4</button>
-                    <button onclick="writeNumber(5)">5</button>
-                    <button onclick="writeNumber(6)">6</button>
+                    <button onclick="writeOnDisplay(4)">4</button>
+                    <button onclick="writeOnDisplay(5)">5</button>
+                    <button onclick="writeOnDisplay(6)">6</button>
                 </div>
                 <div class="keyboard-line">
-                    <button onclick="writeNumber(1)">1</button>
-                    <button onclick="writeNumber(2)">2</button>
-                    <button onclick="writeNumber(3)">3</button>
+                    <button onclick="writeOnDisplay(1)">1</button>
+                    <button onclick="writeOnDisplay(2)">2</button>
+                    <button onclick="writeOnDisplay(3)">3</button>
                 </div>
                 <div class="keyboard-line">
-                    <button onclick="writeNumber(0)">0</button>
-                    <button onclick="writeDot()">.</button>
+                    <button onclick="writeOnDisplay(0)">0</button>
+                    <button onclick="writeDotOnDisplay()">.</button>
                 </div>
             </div>
             <div class="operation-keyboard">
@@ -45,12 +45,12 @@
                 </div>
                 <div class="keyboard-line">
                     <button id="clear-display-button" onclick="clearDisplay()">C</button>
-                    <button onclick="executeOperation()">=</button>
+                    <button onclick="equalOperation()">=</button>
                 </div>
             </div>
         </article>
     </main>
-    <script src="js/script.js"></script>
+    <script src="js/calculator.js"></script>
 </body>
 
 </html>
