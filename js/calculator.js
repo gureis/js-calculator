@@ -30,12 +30,16 @@ function resetOnNewOperation() {
         leftOperand = null;
         rightOperand = null;
         result = null;
+        isNewOperation = !isNewOperation;
     }
 }
 
 function setOperator(localOperator) {
     if (!displayNegativeNumber(localOperator)) {
         resetOnNewOperation();
+        if(isNewOperation) {
+            resetOnNewOperation();
+        }
         if (leftOperand) {
             if (rightOperand === null) {
                 rightOperand = getDisplayNumber();
@@ -69,7 +73,7 @@ function equalOperation() {
         displayResult();
         isNewNumber = true;
         hasDot = false;
-        isNewOperation = false;
+        isNewOperation = true;
     }
 }
 
@@ -92,3 +96,4 @@ function executeOperation() {
             break;
     }
 }
+

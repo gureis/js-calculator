@@ -2,7 +2,6 @@ function writeOnDisplay(value) {
     if (isNewNumber) {
         resetDisplayContent();
         isNewNumber = false;
-        isNewOperation = !isNewOperation;
     }
     if (display.textContent.length < 32) {
         display.textContent = display.textContent.replace(/^0+/, '');
