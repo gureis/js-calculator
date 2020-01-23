@@ -51,6 +51,9 @@ function displayResult() {
 function clearDisplay() {
     if (isSoftClear) {
         hasDot = false;
+        isNewNumber = true;
+        hasOperator = false;
+
     } else {
         operator = null;
         leftOperand = null;
