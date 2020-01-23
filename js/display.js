@@ -95,6 +95,13 @@ function removeSelectedOperator() {
     });
 }
 
+document.addEventListener('mouseup', function () {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.blur()
+    });
+});
+
 //KEYBOARD FUNCTIONS
 
 document.addEventListener('keyup', function (event) {
