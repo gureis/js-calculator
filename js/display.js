@@ -1,18 +1,21 @@
 function writeOnDisplay(value) {
     if (isNewNumber) {
         resetDisplayContent();
+        isSoftClear = true;
+        defineClearText();
         isNewNumber = false;
     }
     if (display.textContent.length < 32) {
         display.textContent = display.textContent.replace(/^0+/, '');
         display.textContent += value;
+        hasOperator = false;
     }
 }
 
 function writeDotOnDisplay() {
     display.textContent = display.textContent.replace(/^0+/, '');
     if (!hasDot) {
-        if(isNewNumber) {
+        if (isNewNumber) {
             resetDisplayContent();
             isNewNumber = !isNewNumber;
         }
@@ -54,6 +57,9 @@ function clearDisplay() {
         result = null;
 
         hasDot = false;
+        isNewNumber = true;
+        isNewOperation = true;
+        hasOperator = false;
 
         removeSelectedOperator();
     }
@@ -63,8 +69,11 @@ function clearDisplay() {
 }
 
 function displayNegativeNumber(localOperator) {
+    let isAlreadyNegative = (display.textContent[0] === '-') ? true : false;
     if (isNewNumber && localOperator == '-') {
         writeOnDisplay('-');
+        return true;
+    } else if(isAlreadyNegative) {
         return true;
     }
     return false;

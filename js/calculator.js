@@ -9,6 +9,7 @@ let hasDot = false;
 let isSoftClear = true;
 let isNewNumber = true;
 let isNewOperation = true;
+let hasOperator = false;
 
 //LOGIC GOES HERE
 
@@ -31,41 +32,46 @@ function resetOnNewOperation() {
         rightOperand = null;
         result = null;
         isNewOperation = !isNewOperation;
+        hasOperator = false;
     }
 }
 
 function setOperator(localOperator) {
     if (!displayNegativeNumber(localOperator)) {
         resetOnNewOperation();
-        if(isNewOperation) {
-            resetOnNewOperation();
-        }
-        if (leftOperand) {
-            if (rightOperand === null) {
-                rightOperand = getDisplayNumber();
-                executeOperation();
-                leftOperand = result;
+        if (!hasOperator) {
+            if (leftOperand) {
+                if (rightOperand === null) {
+                    rightOperand = getDisplayNumber();
+                    executeOperation();
+                    leftOperand = result;
+                    rightOperand = null;
+                    displayResult();
+                }
+            } else {
+                leftOperand = getDisplayNumber();
                 rightOperand = null;
-                displayResult();
             }
-        } else {
-            leftOperand = getDisplayNumber();
-            rightOperand = null;
         }
-        operator = localOperator;
-        displaySelectedOperator(operator);
         isNewNumber = true;
+        operator = localOperator;
+        hasOperator = true;
+        displaySelectedOperator(operator);
         hasDot = false;
     }
 }
 
 function equalOperation() {
-    if (leftOperand !== null && leftOperand !== '-') {
+    if (leftOperand !== null && (leftOperand !== '-')) {
         if (rightOperand) {
             executeOperation();
             leftOperand = result;
         } else if (rightOperand === null) {
             rightOperand = getDisplayNumber();
+            if (isNaN(rightOperand)) {
+                rightOperand === null;
+                return;
+            }
             executeOperation();
             leftOperand = result;
         }
