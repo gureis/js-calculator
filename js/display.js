@@ -21,6 +21,7 @@ function writeDotOnDisplay() {
         }
         display.textContent += '.';
         hasDot = !hasDot;
+        hasOperator = false;
     }
 }
 
