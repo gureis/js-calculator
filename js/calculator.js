@@ -41,7 +41,7 @@ function setOperator(localOperator) {
         resetOnNewOperation();
         if (!hasOperator) {
             if (leftOperand) {
-                if (rightOperand === null) {
+                if (rightOperand === null && !isNaN(getDisplayNumber())) {
                     rightOperand = getDisplayNumber();
                     executeOperation();
                     leftOperand = result;
