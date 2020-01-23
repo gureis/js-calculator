@@ -73,7 +73,7 @@ function displayNegativeNumber(localOperator) {
     if (isNewNumber && localOperator == '-') {
         writeOnDisplay('-');
         return true;
-    } else if(isAlreadyNegative) {
+    } else if(isAlreadyNegative && localOperator === '-') {
         return true;
     }
     return false;
