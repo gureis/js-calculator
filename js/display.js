@@ -70,7 +70,7 @@ function clearDisplay() {
 
 function displayNegativeNumber(localOperator) {
     let isAlreadyNegative = (display.textContent[0] === '-') ? true : false;
-    if (isNewNumber && localOperator == '-') {
+    if (isNewNumber && localOperator == '-' && !isNewOperation) {
         writeOnDisplay('-');
         return true;
     } else if(isAlreadyNegative && localOperator === '-') {
